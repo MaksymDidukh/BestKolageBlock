@@ -3,186 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WEB3 COMMAND PANEL | Vector-skam</title>
+    <title>WEB3 DASHBOARD | VECTOR-SKAM</title>
     <style>
         :root {
-            --neon: #00ff88;
-            --bg: #050505;
-            --card: #111;
-            --text: #e0e0e0;
+            --bg-vanille: #fefdf5; /* Ванильный фон */
+            --accent-turquoise: #40e0d0; /* Бирюзовый акцент */
+            --sidebar-bg: #ffffff;
+            --text-main: #2c3e50;
+            --border-soft: #eaeaea;
         }
 
         body {
-            background: white;
-            color: var(--text);
-            font-family: 'Courier New', monospace;
+            background-color: var(--bg-vanille);
+            color: var(--text-main);
+            font-family: 'Segoe UI', sans-serif; /* Мягкий шрифт */
             margin: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        /* Верхняя статус-панель */
-        .system-status {
-            width: 100%;
-            background: #111;
-            border-bottom: 1px solid #222;
-            padding: 10px 20px;
-            font-size: 12px;
+        /* ЛЕВОЕ МЕНЮ (Side Navigation) */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-soft);
             display: flex;
-            justify-content: space-between;
-            box-sizing: border-box;
-            color: var(--neon);
-        }
-
-        h1 {
-            color: var(--neon);
-            text-shadow: 0 0 15px var(--neon);
-            margin: 40px 0 10px 0;
-            letter-spacing: 7px;
-            text-align: center;
-        }
-
-        .author-tag {
-            margin-bottom: 30px;
-            font-size: 14px;
-            color: #888;
-        }
-
-        /* Сетка проектов */
-        .hub-grid {
-        background: white ;
-            border: 2px dotted black;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            width: 90%;
-            max-width: 1100px;
-            margin-bottom: 40px;
-        }
-
-        .project-link {
-            background: var(--card);
-            border: 1px solid #333;
-            color: var(--neon);
-            text-decoration: none;
-            padding: 25px 15px;
-            text-align: center;
-            border-radius: 4px;
-            transition: 0.3s;
-            text-transform: uppercase;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .project-link:hover {
-            background: var(--neon);
-            color: #000;
-            box-shadow: 0 0 25px var(--neon);
-            transform: scale(1.02);
-        }
-
-        /* Контакты и правовая информация */
-        .info-section {
-            background: #111;
-            border: 1px solid #222;
-            padding: 25px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 800px;
-            margin-bottom: 40px;
-            line-height: 1.6;
-        }
-
-        .info-section h2 { 
-            font-size: 18px; 
-            margin-top: 0; 
-            color: var(--neon); 
-            text-align: center;
-            text-transform: uppercase;
-        }
-
-        .contact-box {
-            text-align: center;
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px dashed var(--neon);
-        }
-
-        .contact-link { 
-            color: #fff; 
-            text-decoration: none; 
-            font-weight: bold;
-            border-bottom: 1px solid var(--neon); 
-        }
-
-        .legal-text {
-            font-size: 12px;
-            color: #666;
-            margin-top: 20px;
-        }
-
-        .footer {
+            flex-direction: column;
             padding: 20px;
-            font-size: 10px;
-            color: #444;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.02);
+            z-index: 100;
+        }
+
+        .sidebar h1 {
+            font-size: 16px;
+            color: var(--accent-turquoise);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
             text-align: center;
+        }
+
+        .nav-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            background: #fff;
+            border: 1px solid var(--border-soft);
+            color: var(--text-main);
+            padding: 14px;
+            text-decoration: none;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 10px; /* Округлые углы */
+            text-transform: uppercase;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--accent-turquoise);
+            color: white;
+            border-color: var(--accent-turquoise);
+            box-shadow: 0 4px 12px rgba(64, 224, 208, 0.3);
+        }
+
+        /* РАБОЧАЯ ОБЛАСТЬ (Center View) */
+        .main-view {
+            flex: 1;
+            position: relative;
+            background: white;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* КНОПКА МЕНЮ ДЛЯ ТЕЛЕФОНА */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: var(--accent-turquoise);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                left: -260px;
+                height: 100%;
+                transition: 0.3s;
+            }
+            .sidebar.open { left: 0; }
+            .mobile-toggle { display: block; }
+        }
+
+        .clock-top {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 11px;
+            color: var(--text-main);
+            opacity: 0.5;
         }
     </style>
 </head>
 <body>
 
-    <div class="system-status">
-        <span>SYSTEM STATUS: OPERATIONAL</span>
-        <span id="clock">ЗАГРУЗКА...</span>
-    </div>
-
-    <h1>WEB3 COMMAND PANEL</h1>
-    <div class="author-tag">OPERATOR: VECTOR-SKAM</div>
-
-    <div class="hub-grid">
-        <a href="https://web3audio.netlify.app" class="project-link" target="_blank">web3audio</a>
-        <a href="https://web3video.netlify.app" class="project-link" target="_blank">web3video</a>
-        <a href="https://web3file.netlify.app" class="project-link" target="_blank">web3file</a>
-        <a href="https://web3system.netlify.app" class="project-link" target="_blank">web3system</a>
-        <a href="https://web3computer.netlify.app" class="project-link" target="_blank">web3computer</a>
-        <a href="https://web3mp3.netlify.app" class="project-link" target="_blank">web3mp3</a>
-        <a href="https://web3image.netlify.app" class="project-link" target="_blank">web3image</a>
-        <a href="https://web3my.netlify.app" class="project-link" target="_blank">web3my</a>
-        <a href="https://web3trade.netlify.app" class="project-link" target="_blank">web3trade</a>
-        <a href="https://app3web.netlify.app" class="project-link" target="_blank">app3web</a>
-        <a href="https://web3money.netlify.app" class="project-link" target="_blank">web3money</a>
-    </div>
-
-    <div class="info-section">
-        <h2>ИНФОРМАЦИЯ И КОНТАКТЫ</h2>
-        <p>Выше представлены мои официальные Web3-проекты, развернутые на платформе Netlify. Данные инструменты созданы для индивидуального использования и мониторинга контента.</p>
-        
-        <div class="contact-box">
-            По вопросам сотрудничества или техподдержки: <br>
-            <a href="mailto:didukh.maxim@gmail.com" class="contact-link">didukh.maxim@gmail.com</a>
+    <nav class="sidebar" id="sidebar">
+        <h1>WEB3 CP</h1>
+        <div class="nav-list">
+            <div class="nav-item active" onclick="openPage('https://web3trade.netlify.app', this)">web3trade</div>
+            <div class="nav-item" onclick="openPage('https://web3video.netlify.app', this)">web3video</div>
+            <div class="nav-item" onclick="openPage('https://web3audio.netlify.app', this)">web3audio</div>
+            <div class="nav-item" onclick="openPage('https://web3file.netlify.app', this)">web3file</div>
+            <div class="nav-item" onclick="openPage('https://web3system.netlify.app', this)">web3system</div>
+            <div class="nav-item" onclick="openPage('https://web3computer.netlify.app', this)">web3computer</div>
+            <div class="nav-item" onclick="openPage('https://web3mp3.netlify.app', this)">web3mp3</div>
+            <div class="nav-item" onclick="openPage('https://web3image.netlify.app', this)">web3image</div>
+            <div class="nav-item" onclick="openPage('https://bestkolageblock.netlify.app', this)">collage</div>
+            <div class="nav-item" onclick="openPage('https://web3money.netlify.app', this)">web3money</div>
         </div>
-
-        <div class="legal-text">
-            <b>Политика конфиденциальности:</b> Данные приложения работают исключительно на стороне клиента (в браузере). Мы не собираем, не храним и не передаем ваши персональные данные. Все настройки сохраняются локально на вашем устройстве. Использование инструментов для просмотра и прослушивания контента через официальные API (YouTube, GitHub) полностью законно в личных целях на текущий момент (2026 г.).
+        <div style="margin-top:auto; font-size:10px; text-align:center; opacity:0.4;">
+            © 2026 VECTOR-SKAM
         </div>
+    </nav>
+
+    <div class="main-view">
+        <div class="clock-top" id="clock">00:00:00</div>
+        <iframe id="contentFrame" src="https://web3trade.netlify.app"></iframe>
     </div>
 
-    <div class="footer">
-        UNAUTHORIZED ACCESS PROHIBITED | 2026 | BUILT FOR WEB3 ECOLOGY
-    </div>
+    <button class="mobile-toggle" onclick="toggleSidebar()">MENU</button>
 
     <script>
+        function openPage(url, el) {
+            document.getElementById('contentFrame').src = url;
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+            if (window.innerWidth <= 768) toggleSidebar();
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
         function updateClock() {
-            const now = new Date();
-            const time = now.toLocaleTimeString('ru-RU');
-            const date = now.toLocaleDateString('ru-RU');
-            document.getElementById('clock').innerText = `${date} | ${time}`;
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString('ru-RU');
         }
         setInterval(updateClock, 1000);
         updateClock();
     </script>
 </body>
 </html>
-
