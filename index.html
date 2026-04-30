@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    <title>web3my - Dashboard</title>
+
+    <style>
+        :root {
+            --vanille: #fefdf5;
+            --turquoise: #40e0d0;
+            --text: #2c3e50;
+            --sidebar-w: 260px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--vanille);
+            color: var(--text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* САЙДБАР */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: white;
+            border-right: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            z-index: 100;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .sidebar h2 {
+            font-size: 14px;
+            color: #00FF41;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #444;
+            padding-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+        }
+
+        .nav-item {
+            /* Адаптация под размер текста */
+            width: fit-content;
+            min-width: 120px;
+            margin: 0 auto 10px auto; /* Центрирование и отступ вниз */
+            padding: 8px 16px;
+            
+            border: 2px solid transparent;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.5);
+            display: block;
+            white-space: nowrap; /* Чтобы текст не переносился */
+        }
+
+        /* Эффект наведения */
+        .nav-item:hover {
+            background: currentColor !important;
+            color: white !important;
+            transform: translateX(3px);
+            border-color: transparent !important;
+        }
+
+        /* Эффект нажатия */
+        .nav-item:active {
+            transform: scale(0.95);
+            opacity: 0.8;
+        }
+
+        /* КОНТЕНТ */
+        .viewport-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+
+        .frame-section {
+            flex: 1;
+            position: relative;
+            border-bottom: 2px solid var(--turquoise);
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .frame-section:last-child { border-bottom: none; }
+
+        .controls-wrapper {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            gap: 5px;
+            z-index: 50;
+        }
+
+        .label {
+            background: var(--turquoise);
+            color: white;
+            padding: 4px 12px;
+            font-size: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .open-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--turquoise);
+            color: var(--text);
+            padding: 4px 10px;
+            font-size: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .open-btn:hover { background: var(--turquoise); color: white; }
+        .open-btn:active { transform: scale(0.9); }
+
+        .copied { background: #238636 !important; color: white !important; }
+
+        iframe { width: 100%; height: 100%; border: none; display: block; }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            font-size: 10px;
+            opacity: 0.5;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { 
+                width: 100%; 
+                height: auto; 
+                max-height: 120px; 
+                flex-direction: row; 
+                overflow-x: auto; 
+                padding: 10px; 
+                align-items: center;
+            }
+            .nav-item { 
+                margin: 0 5px; 
+                min-width: fit-content; 
+                display: inline-block;
+            }
+            .viewport-container { height: calc(100vh - 120px); }
+            .sidebar h2 { display: none; } /* Скрываем заголовок на мобилках для экономии места */
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <h2>DASHBOARD</h2>
+        
+        <div class="nav-item" data-url="https://www.google.com/search?q=threejs&igu=1">Google Search</div>
+        <div class="nav-item" data-url="https://wwwwebs.netlify.app/">WWWWEBS</div>
+        <div class="nav-item" data-url="https://drawingtogether.netlify.app/">DrawingTogether</div>
+        <div class="nav-item" data-url="https://sandbox3dtogether.netlify.app/">SandBox3DTogether</div>
+        <div class="nav-item" data-url="https://web3universe.netlify.app/">WEB3UNIVERSE</div>
+        <div class="nav-item" data-url="https://reinhref.netlify.app/">/Rein Href</div>
+        <div class="nav-item" data-url="https://readflowblock.netlify.app/">ReadFlowBlock</div>
+        <div class="nav-item" data-url="https://multichat3dcube.netlify.app/">MultiChat3DCube</div>
+        <div class="nav-item" data-url="https://drawingtogether3d.netlify.app/">DrawingTogether3D</div>
+        
+        <div class="nav-item" data-url="https://web3video.netlify.app">Video Full</div>
+        <div class="nav-item" data-url="https://web3audio.netlify.app">Audio Fun</div>
+        <div class="nav-item" data-url="https://relaxstar.netlify.app">Relax Star</div>
+        
+        <div class="nav-item" data-url="https://ball-bell.netlify.app/">Game: Ball-Bell</div>
+        <div class="nav-item" data-url="https://glasssmall.netlify.app/">Game: GlassSmall</div>
+        <div class="nav-item" data-url="https://pianorain.netlify.app/">Game: PianoRain</div>
+        <div class="nav-item" data-url="https://geometryninja.netlify.app/">Game: GeometryNinja</div>
+        <div class="nav-item" data-url="https://bouncearea.netlify.app/">Game: BounceArea</div>
+        <div class="nav-item" data-url="https://stakebounce.netlify.app/">Game: StakeBounce</div>
+        <div class="nav-item" data-url="https://pianosteps.netlify.app/">Game: PianoSteps</div>
+        <div class="nav-item" data-url="https://physicaldrawing.netlify.app/">Game: PhysicalDrawing</div>
+        <div class="nav-item" data-url="https://starstaps.netlify.app/">Game: StarsTaps</div>
+        <div class="nav-item" data-url="https://rengerarena.netlify.app/">Game: RengerArena</div>
+        <div class="nav-item" data-url="https://jumpbounce.netlify.app/">Game: JumpBounce</div>
+        <div class="nav-item" data-url="https://triangle-tree.netlify.app/">Game: Triangle Tree</div>
+        
+        <div class="nav-item" data-url="https://starframes.netlify.app/">StarFrames</div>
+        <div class="nav-item" data-url="https://wavescreen.netlify.app/">WaveScreen</div>
+        <div class="nav-item" data-url="https://agka.netlify.app/">Game: AGKA</div>
+        
+        <div class="nav-item" data-url="https://web3cp.netlify.app/" style="color: #00FF41; border: 2px solid #00FF41; background: rgba(0, 255, 65, 0.1);" data-static="true">Donate</div>
+        <div class="nav-item" data-url="https://symbolpart.netlify.app/">SymbolPart</div>
+       
+        <div class="sidebar-footer">MAKSYM DIDUKH © 2026</div>
+    </nav>
+    
+
+    <div class="viewport-container">
+        <div class="frame-section">
+            <div class="controls-wrapper">
+                <div class="label" id="frameLabel">WEB3UNIVERSAL</div>
+                <a href="https://web3universal.netlify.app" target="_blank" class="open-btn" id="externalLink">↗</a>
+                <button class="open-btn" id="copyBtn">🔗</button>
+            </div>
+            <iframe id="myIframe" src="https://drawingtogether3d.netlify.app" sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-scripts allow-same-origin"></iframe>
+        </div>
+
+        <div class="frame-section">
+            <div class="controls-wrapper">
+                <div class="label">VIDEO VIEWER 3x3</div>
+                <a href="https://web3video.netlify.app" target="_blank" class="open-btn">↗</a>
+                <button class="open-btn" onclick="copyText('https://web3video.netlify.app', this)">🔗</button>
+            </div>
+            <iframe src="https://web3video.netlify.app" sandbox="allow-forms allow-scripts allow-same-origin"></iframe>
+        </div>
+    </div>
+    
+    <script>
+        // Рандом цветов
+        function getRandomColor() {
+            const h = Math.floor(Math.random() * 360);
+            return `hsl(${h}, 75%, 45%)`;
+        }
+
+        function applyRandomColors() {
+            document.querySelectorAll(".nav-item").forEach(item => {
+                if (!item.hasAttribute('data-static')) {
+                    const color = getRandomColor();
+                    item.style.color = color;
+                    item.style.borderColor = color;
+                }
+            });
+        }
+
+        // Навигация и копирование
+        const iframe = document.getElementById("myIframe");
+        const label = document.getElementById("frameLabel");
+        const externalLink = document.getElementById("externalLink");
+
+        async function copyText(text, btn) {
+            try {
+                await navigator.clipboard.writeText(text);
+                const old = btn.innerHTML;
+                btn.innerHTML = "✓";
+                btn.classList.add('copied');
+                setTimeout(() => { btn.innerHTML = old; btn.classList.remove('copied'); }, 1500);
+            } catch (err) { console.error(err); }
+        }
+
+        document.getElementById("copyBtn").onclick = function() { copyText(externalLink.href, this); };
+
+        document.querySelectorAll(".nav-item").forEach(link => {
+            link.onclick = function() {
+                const url = this.getAttribute("data-url");
+                if (url) {
+                    if (url.includes("google.com")) { window.open(url, '_blank'); return; }
+                    iframe.src = url;
+                    label.textContent = this.textContent;
+                    externalLink.href = url;
+                }
+            };
+        });
+
+        applyRandomColors();
+    </script>
+</body>
+  </html>
+  
