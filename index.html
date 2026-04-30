@@ -287,6 +287,54 @@
         });
 
         applyRandomColors();
+// Название класса, в котором будут летать кружки
+const targetClass = '.sidebar'; 
+
+function initParticles(className, count = 30) {
+    // Находим все блоки с этим классом
+    const containers = document.querySelectorAll(className);
+
+    containers.forEach(box => {
+        // Чтобы кружки не вылетали за границы, принудительно ставим стили контейнеру
+        box.style.position = "relative";
+        box.style.overflow = "hidden";
+
+        for (let i = 0; i < count; i++) {
+            const c = document.createElement("div");
+
+            // Стили кружка
+            const size = Math.random() * 20 + 5;
+            Object.assign(c.style, {
+                position: "absolute",
+                left: Math.random() * 100 + "%",
+                top: Math.random() * 100 + "%",
+                width: size + "px",
+                height: size + "px",
+                borderRadius: "50%",
+                background: `hsl(${Math.random() * 360}, 70%, 60%)`,
+                opacity: "0.7",
+                pointerEvents: "none"
+            });
+
+            box.appendChild(c);
+
+            // Анимация полета
+            c.animate([
+                { transform: 'translate(0, 0)' },
+                { transform: `translate(${Math.random() * 80 - 40}px, ${Math.random() * 80 - 40}px)` }
+            ], {
+                duration: Math.random() * 3000 + 2000,
+                direction: 'alternate',
+                iterations: Infinity,
+                easing: 'ease-in-out'
+            });
+        }
+    });
+}
+
+// Запуск
+initParticles(targetClass, 40);
+
     </script>
     <script src="https://dmamax.netlify.app/legal-module.js"></script>
     
