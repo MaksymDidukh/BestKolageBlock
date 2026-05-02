@@ -10,7 +10,7 @@
             --vanille: #fefdf5;
             --turquoise: #40e0d0;
             --text: #2c3e50;
-            --sidebar-w: 220px;
+            --sidebar-w: 230px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,12 +26,12 @@
 
         /* САЙДБАР */
         .sidebar {
-            width: var(--sidebar-w);
+            width: 17%;
             background: white;
             border-right: 1px solid #eee;
             display: flex;
             flex-direction: column;
-            padding: 15px;
+            padding: 12px;
             z-index: 100;
             overflow-y: auto;
             flex-shrink: 0;
@@ -40,14 +40,14 @@
         .sidebar h2 { 
             font-size: 14px; 
             color: #2c3e50; 
-            margin-bottom: 15px; 
+            margin-bottom: 12px; 
             text-align: center; 
             letter-spacing: 1px;
             border-bottom: 2px solid var(--turquoise);
             padding-bottom: 5px;
         }
 
-        /* УПРАВЛЕНИЕ СЕТКОЙ */
+        /* УПРАВЛЕНИЕ */
         .grid-controls {
             background: #f9f9f9;
             padding: 10px;
@@ -55,7 +55,7 @@
             margin-bottom: 15px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             border: 1px solid #eee;
         }
 
@@ -64,12 +64,30 @@
         .grid-input-row { display: flex; align-items: center; justify-content: space-between; gap: 5px; }
 
         .n-input {
-            width: 60px;
-            padding: 5px;
+            width: 50px;
+            padding: 4px;
             font-size: 12px;
             border: 1px solid #ccc;
             border-radius: 4px;
             text-align: center;
+        }
+
+        /* ПОЛЕ ДЛЯ СВОЕГО URL */
+        .custom-url-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 5px;
+            padding-top: 5px;
+            border-top: 1px dashed #ccc;
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 6px;
+            font-size: 11px;
+            border: 1px solid var(--turquoise);
+            border-radius: 4px;
         }
 
         .ctrl-btn {
@@ -77,15 +95,16 @@
             background: var(--turquoise);
             color: white;
             border: none;
-            padding: 8px;
+            padding: 7px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 11px;
+            font-size: 10px;
             transition: 0.2s;
         }
-        .ctrl-btn:hover { background: #35c7b8; }
-        .btn-remove { background: #ff414d; margin-top: 2px; }
+        .ctrl-btn:hover { filter: brightness(0.9); }
+        .btn-add-url { background: #2c3e50; }
+        .btn-remove { background: #ff414d; }
 
         /* СПИСОК ССЫЛОК */
         .nav-list { display: flex; flex-direction: column; gap: 4px; }
@@ -106,26 +125,23 @@
             text-overflow: ellipsis;
         }
 
-        .nav-item:hover { transform: translateX(5px); filter: brightness(0.9); }
-        .nav-item.active { background: var(--text) !important; color: white !important; border-color: var(--text) !important; }
+        .nav-item:hover { transform: translateX(5px); }
+        .nav-item.active { background: var(--text) !important; color: white !important; }
 
         .sidebar-footer {
             margin-top: 20px;
-            padding: 10px 0;
+            padding-top: 10px;
             font-size: 9px;
             text-align: center;
             color: #bbb;
             border-top: 1px solid #eee;
         }
 
-        /* КОНТЕЙНЕР СЕТКИ */
+        /* СЕТКА */
         .viewport-container {
             flex: 1;
             display: grid;
-            /* Динамически управляется через JS */
-            grid-template-columns: repeat(1, 1fr);
-            grid-template-rows: repeat(1, 1fr);
-            overflow: hidden; /* Чтобы избежать двойных скроллов */
+            overflow: hidden;
             background: #e0e0e0;
             gap: 2px;
             padding: 2px;
@@ -145,7 +161,7 @@
             display: flex;
             gap: 5px;
             z-index: 50;
-            opacity: 0.1;
+            opacity: 0.15;
             transition: opacity 0.3s;
         }
         .frame-section:hover .controls-wrapper { opacity: 1; }
@@ -156,6 +172,10 @@
             padding: 2px 6px; 
             font-size: 9px; 
             border-radius: 3px; 
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .open-btn { 
@@ -173,31 +193,38 @@
 
         @media (max-width: 768px) {
             body { flex-direction: column; }
-            .sidebar { width: 100%; max-height: 250px; }
-            .viewport-container { height: calc(100vh - 250px); }
+            .sidebar { width: 100%; max-height: 300px; }
+            .viewport-container { height: calc(100vh - 300px); }
         }
     </style>
 </head>
 <body>
 
     <nav class="sidebar">
-        <h2>DASHBOARD</h2>
+        <h2>WEB3 - DASHBOARD</h2>
 
         <div class="grid-controls">
             <div class="grid-input-row">
                 <label>Колонки:</label>
-                <input type="number" id="colsInput" class="n-input" value="1" min="1" max="10">
+                <input type="number" id="colsInput" class="n-input" value="2" min="1" max="10">
             </div>
             <div class="grid-input-row">
                 <label>Строки:</label>
-                <input type="number" id="rowsInput" class="n-input" value="1" min="1" max="10">
+                <input type="number" id="rowsInput" class="n-input" value="2" min="1" max="10">
             </div>
-            <button id="setGrid" class="ctrl-btn">ОБНОВИТЬ СЕТКУ</button>
-            <button id="clearGrid" class="ctrl-btn btn-remove">ОЧИСТИТЬ</button>
+            <button id="setGrid" class="ctrl-btn">ПРИМЕНИТЬ СЕТКУ</button>
+            
+            <div class="custom-url-group">
+                <label>Свой URL:</label>
+                <input type="text" id="customUrlInput" class="url-input" placeholder="https://example.com">
+                <button id="addCustomUrl" class="ctrl-btn btn-add-url">ЗАГРУЗИТЬ URL</button>
+            </div>
+
+            <button id="clearGrid" class="ctrl-btn btn-remove">ОЧИСТИТЬ ВСЁ</button>
         </div>
 
         <div class="nav-list" id="navList">
-            <div class="nav-item active" data-url="https://web3my.netlify.app/">Web3My</div>
+            <div class="nav-item active" data-url="https://web3my.vercel.app/">Web3My</div>
             <div class="nav-item" data-url="https://www.google.com/search?q=threejs&igu=1">Google Search</div>
             <div class="nav-item" data-url="https://wwwwebs.netlify.app/">WWWWEBS</div>
             <div class="nav-item" data-url="https://drawingtogether.netlify.app/">DrawingTogether</div>
@@ -242,6 +269,8 @@
         const viewport = document.getElementById("viewport");
         const colsInput = document.getElementById("colsInput");
         const rowsInput = document.getElementById("rowsInput");
+        const customUrlInput = document.getElementById("customUrlInput");
+        const addUrlBtn = document.getElementById("addCustomUrl");
         const setBtn = document.getElementById("setGrid");
         const clearBtn = document.getElementById("clearGrid");
 
@@ -250,6 +279,88 @@
 
         function createFrame(url, title) {
             const section = document.createElement("div");
+            section.className = "frame-section";
+            section.innerHTML = `
+                <div class="controls-wrapper">
+                    <div class="label" title="${title}">${title}</div>
+                    <a href="${url}" target="_blank" class="open-btn">↗</a>
+                    <button class="open-btn" onclick="copyToClipboard('${url}', this)">🔗</button>
+                </div>
+                <iframe src="${url}" loading="lazy"></iframe>
+            `;
+            viewport.appendChild(section);
+        }
+
+        function updateGrid(url, title) {
+            const cols = parseInt(colsInput.value) || 1;
+            const rows = parseInt(rowsInput.value) || 1;
+            
+            viewport.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+            viewport.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+            
+            viewport.innerHTML = "";
+            const total = cols * rows;
+            for(let i=0; i < total; i++) {
+                createFrame(url || currentUrl, title || currentTitle);
+            }
+        }
+
+        // Применить сетку с текущим URL
+        setBtn.onclick = () => updateGrid();
+
+        // Загрузить кастомный URL
+        addUrlBtn.onclick = () => {
+            const val = customUrlInput.value.trim();
+            if(val) {
+                // Добавляем http если забыли
+                currentUrl = val.startsWith('http') ? val : 'https://' + val;
+                currentTitle = "Custom Link";
+                updateGrid(currentUrl, currentTitle);
+            }
+        };
+
+        clearBtn.onclick = () => { viewport.innerHTML = ""; };
+
+        document.querySelectorAll(".nav-item").forEach(item => {
+            if (!item.style.color) {
+                const hue = Math.floor(Math.random() * 360);
+                item.style.color = `hsl(${hue}, 70%, 45%)`;
+                item.style.borderColor = `hsl(${hue}, 70%, 45%)`;
+            }
+
+            item.onclick = function() {
+                document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active"));
+                this.classList.add("active");
+                currentUrl = this.getAttribute("data-url");
+                currentTitle = this.textContent;
+
+                if(viewport.children.length === 0) {
+                    updateGrid();
+                } else {
+                    viewport.querySelectorAll(".frame-section").forEach(frame => {
+                        frame.querySelector("iframe").src = currentUrl;
+                        frame.querySelector(".label").textContent = currentTitle;
+                        frame.querySelector("a").href = currentUrl;
+                    });
+                }
+            };
+        });
+
+        async function copyToClipboard(text, btn) {
+            await navigator.clipboard.writeText(text);
+            const original = btn.textContent;
+            btn.textContent = "✓";
+            setTimeout(() => btn.textContent = original, 1000);
+        }
+
+        // Инициализация
+        updateGrid();
+    </script>
+<script src="https://dmamax.netlify.app/legal-module.js"></script>
+
+</body>
+</html>
+   const section = document.createElement("div");
             section.className = "frame-section";
             section.innerHTML = `
                 <div class="controls-wrapper">
