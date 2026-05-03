@@ -284,6 +284,40 @@
         createFrame("https://natokinaseninja3d.netlify.app/","NatokinaseNinja3D");
         createFrame("https://web3my.vercel.app/", "Web3My");
         createFrame("https://web3universe.netlify.app/", "WWWWEBS");
+
+
+
+
+
+
+
+        //////
+        const navList = document.getElementById('navList');
+
+// 1. Создаем кнопки внутри каждого элемента
+document.querySelectorAll('.nav-item').forEach(item => {
+    const copyBtn = document.createElement('button');
+    copyBtn.innerText = '📋'; // Иконка копирования
+    copyBtn.className = 'copy-btn';
+    item.appendChild(copyBtn);
+});
+
+// 2. Логика копирования
+navList.addEventListener('click', (e) => {
+    if (e.target.classList.contains('copy-btn')) {
+        e.stopPropagation(); // Чтобы не срабатывал переход по ссылке самого пункта
+        
+        const parent = e.target.closest('.nav-item');
+        const url = parent.getAttribute('data-url');
+
+        navigator.clipboard.writeText(url).then(() => {
+            const originalIcon = e.target.innerText;
+            e.target.innerText = '✅'; // Показываем, что скопировано
+            setTimeout(() => e.target.innerText = originalIcon, 1000);
+        });
+    }
+});
+        
     </script>
     <script src="https://dmamax.netlify.app/legal-module.js"></script>
 </body>
